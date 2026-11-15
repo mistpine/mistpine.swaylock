@@ -1,0 +1,29 @@
+# Filing through the API or `gh issue create`? Forms only apply on the web:
+# write the body with each field's label below as a `### ` heading, in order.
+name: Option or feature
+description: A swaylock color option the config should set, or a new swaylock release to support.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The config sets colors only. Fonts, the indicator size and images stay in your own config.
+  - type: input
+    id: what
+    attributes:
+      label: Options
+      placeholder: "caps-lock-key-hl-color, layout-…"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: swaylock version that added them
+      description: A link to the release notes or swaylock(1) helps.
+  - type: textarea
+    id: why
+    attributes:
+      label: Why
+      description: What looks off without them, and which spec colors you think they should use.
+    validations:
+      required: true
