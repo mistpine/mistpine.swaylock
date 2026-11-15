@@ -11,13 +11,15 @@
 import { execFileSync } from "node:child_process";
 import { mkdirSync, rmSync } from "node:fs";
 import { basename, join } from "node:path";
-import { loadSpec, ROOT } from "./lib/colors.ts";
-import { image } from "./lib/docker.ts";
+import { loadSpec } from "@mistpine/port-kit";
+import { image } from "@mistpine/port-kit/docker";
 import { run, STATES, type State } from "./lib/states.ts";
+
+const ROOT = join(import.meta.dirname, "..");
 
 const WORK = join(ROOT, ".render");
 const ASSETS = join(ROOT, "assets");
-const { spec } = await loadSpec();
+const { spec } = await loadSpec(ROOT);
 const LABELS: Record<State, string> = {
   typing: "typing",
   backspace: "backspace",
@@ -50,7 +52,12 @@ execFileSync(
     `${ASSETS}:/assets`,
     "--user",
     `${process.getuid?.() ?? 0}:${process.getgid?.() ?? 0}`,
-    image("26.04"),
+    image({
+      name: "mistpine-swaylock",
+      release: "26.04",
+      context: join(ROOT, "scripts", "render"),
+      hostUser: true,
+    }),
     "montage",
     "-font",
     "/usr/share/fonts/truetype/jetbrains-mono/JetBrainsMono-Regular.ttf",

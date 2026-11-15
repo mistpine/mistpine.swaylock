@@ -15,8 +15,10 @@
 import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { loadSpec, ROOT } from "./lib/colors.ts";
+import { loadSpec } from "@mistpine/port-kit";
 import { run } from "./lib/states.ts";
+
+const ROOT = join(import.meta.dirname, "..");
 
 const RELEASES = { "24.04": "1.7.2", "26.04": "1.8.4" } as const;
 type Release = keyof typeof RELEASES;
@@ -30,7 +32,7 @@ function fail(message: string): never {
   process.exit(1);
 }
 
-const { spec } = await loadSpec();
+const { spec } = await loadSpec(ROOT);
 const ui = (n: string) => (spec.ui[n]?.hex ?? fail(`the spec has no ui.${n}`)).toLowerCase();
 const pal = (n: string) => (spec.palette[n] ?? fail(`the spec has no ${n}`)).toLowerCase();
 const NONE = "00000000";

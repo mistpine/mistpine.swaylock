@@ -6,10 +6,11 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import type { Spec } from "./colors.ts";
-import { ROOT } from "./colors.ts";
-import { image } from "./docker.ts";
-import { type Expect, expectPixels, histogram, load } from "./pixels.ts";
+import type { Spec } from "@mistpine/port-kit";
+import { image } from "@mistpine/port-kit/docker";
+import { type Expect, expectPixels, histogram, load } from "@mistpine/port-kit/pixels";
+
+const ROOT = join(import.meta.dirname, "..", "..");
 
 export const STATES = ["typing", "backspace", "cleared", "capslock", "verifying", "wrong"] as const;
 export type State = (typeof STATES)[number];
@@ -73,7 +74,12 @@ export function run(release: string, out: string, spec: Spec): Run {
       `${process.getuid?.() ?? 0}:${process.getgid?.() ?? 0}`,
       "-e",
       "HOME=/tmp/home",
-      image(release),
+      image({
+        name: "mistpine-swaylock",
+        release,
+        context: join(ROOT, "scripts", "render"),
+        hostUser: true,
+      }),
       "sh",
       "/states.sh",
     ],

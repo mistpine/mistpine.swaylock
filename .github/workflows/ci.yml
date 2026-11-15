@@ -14,17 +14,8 @@ concurrency:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-      - run: corepack enable
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm lint
-      - run: pnpm typecheck
-      # themes/ must match the generator and the current mistpine spec.
-      - run: pnpm check
-      # swaylock 1.7.2 and 1.8.4 (in Docker) must show every lock state in the spec colors.
-      - run: pnpm verify
+    # themes/ must match the generator and the current mistpine spec.
+    # swaylock 1.7.2 and 1.8.4 (in Docker) must show every lock state in the spec colors.
+    uses: mistpine/port-kit/.github/workflows/port.yml@v0.1.0
+    with:
+      verify: true

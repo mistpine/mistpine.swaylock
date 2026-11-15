@@ -6,16 +6,18 @@
  *   pnpm generate --check  fail if it is out of date
  *
  * Every color comes from palette/mistpine.json in the reference repository
- * (see lib/colors.ts), except `00000000`, fully transparent, for the lines
+ * (read by @mistpine/port-kit), except `00000000`, fully transparent, for the lines
  * swaylock draws around the ring. Before anything is written, every text
  * color must clear 4.5:1 on the inside of the ring it sits on.
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { contrast, loadSpec, mix, ROOT, type Spec } from "./lib/colors.ts";
+import { contrast, loadSpec, mix, type Spec } from "@mistpine/port-kit";
+
+const ROOT = join(import.meta.dirname, "..");
 
 const check = process.argv.includes("--check");
-const { spec, source } = await loadSpec();
+const { spec, source } = await loadSpec(ROOT);
 
 /** A palette key (`bg1`) or a spec token (`ui.error`), as RRGGBB; "none" is transparent. */
 function color(key: string): string {
