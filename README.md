@@ -76,6 +76,10 @@ The screen and the inside of the ring are the spec's canvas, `bg1`
 
 Requires Node 24+, pnpm (`corepack enable`) and Docker.
 
+The spec loader, color math, banner and pixel checks come from
+[@mistpine/port-kit](https://github.com/mistpine/port-kit), shared by every
+mistpine port.
+
 ```sh
 pnpm install
 pnpm generate  # themes/mistpine.conf from the mistpine spec
@@ -111,5 +115,4 @@ counts.
 
 ## License
 
-[MIT](LICENSE). Outfit and JetBrains Mono (in `scripts/fonts`, for the banner)
-are under the SIL Open Font License 1.1.
+[MIT](LICENSE).
